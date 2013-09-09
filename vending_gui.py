@@ -77,6 +77,15 @@ class MainPanel(wx.Panel):
         bmp = wx.Image("qrcode.png", wx.BITMAP_TYPE_ANY).ConvertToBitmap()
         wx.StaticBitmap(self, -1, bmp, pos=(10, 10), size=(420, 500))
         
+    def OnChoc(self, e):
+        global challenge 
+        
+        url, challenge = encrypt_code('4FF1')
+        make_qrcode(url)
+        
+        bmp = wx.Image("qrcode.png", wx.BITMAP_TYPE_ANY).ConvertToBitmap()
+        wx.StaticBitmap(self, -1, bmp, pos=(10, 10), size=(420, 500))     
+        
     def OnContinue(self, e):
         read(challenge)
         #print challenge
