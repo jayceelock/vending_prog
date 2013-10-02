@@ -4,7 +4,7 @@ import os
 def make_qrcode(data):
     qr = qrcode.QRCode(
                        version = None,
-                       box_size = 4,
+                       box_size = 6,
                        )
     
     qr.add_data(data)
