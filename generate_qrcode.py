@@ -14,6 +14,5 @@ def make_qrcode(data):
     
     path = os.getcwd()
 
-    qrcoded_image.save(path + "qrcode.png")
-    #qrcoded_image.show()
-    
+    qrcoded_image.save(path + "/qrcode.png")
+    #qrcoded_image.save("/media/jaycee/J-Drive/skripsie/vending_prog/qrcode.png")
