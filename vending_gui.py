@@ -4,6 +4,7 @@ import wx
 from generate_qrcode import make_qrcode
 from encrypt_elgamal import encrypt_code
 from read_qrcode import read
+from motor_control import motor_switch
  
 ########################################################################
 class MainPanel(wx.Panel):
@@ -59,19 +60,23 @@ class MainPanel(wx.Panel):
         dc.DrawBitmap(bmp, 0, 0)
  
     def OnCoke(self, e):
-        global challenge 
+        global challenge, motor
         
         url, challenge = encrypt_code('A061')
         make_qrcode(url)
+        
+        motor = 2
         
         bmp = wx.Image("qrcode.png", wx.BITMAP_TYPE_ANY).ConvertToBitmap()
         wx.StaticBitmap(self, -1, bmp, pos=(10, 10), size=(420, 500))
         
     def OnLays(self, e):
-        global challenge 
+        global challenge, motor
         
         url, challenge = encrypt_code('233C')
         make_qrcode(url)
+        
+        motor = 2
         
         bmp = wx.Image("qrcode.png", wx.BITMAP_TYPE_ANY).ConvertToBitmap()
         wx.StaticBitmap(self, -1, bmp, pos=(10, 10), size=(420, 500))
@@ -86,7 +91,14 @@ class MainPanel(wx.Panel):
         wx.StaticBitmap(self, -1, bmp, pos=(10, 10), size=(420, 500))     
         
     def OnContinue(self, e):
-        read(challenge)
+        
+        global motor
+        
+        success = read(challenge)
+        
+        if success == 1:
+            motor_switch(motor)
+                         
         #print challenge
             
 ########################################################################

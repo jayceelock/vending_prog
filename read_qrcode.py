@@ -60,8 +60,15 @@ def process_code(verify_code, challenge_code):
 
     if decrypted_message[4:8] != challenge_code:
         print 'Invalid QR-Code. Please try again.'
+        
+        return 0
+    
         if verify_test != True:
             print 'The source of this QR-code could not be verified. Please try again.'
+            
+            return 0
 
     else:
         print "Thank you for your purchase. Enjoy your day :)"
+        
+        return 1
