@@ -3,9 +3,10 @@ from sys import argv
 import base64
 import cPickle as Pickle
 import zbar
+from motor_control import motor_switch
 
-def read(challenge_code):
-
+def read(challenge_code, motor_num):
+    
     # create a Processor
     proc = zbar.Processor()
     
@@ -24,7 +25,7 @@ def read(challenge_code):
         for symbol in image:
             if not symbol.count:
                 # do something useful with results
-                process_code(symbol.data, challenge_code)
+                process_code(symbol.data, challenge_code, motor_num)
     
     proc.set_data_handler(my_handler)
     
@@ -40,7 +41,7 @@ def read(challenge_code):
         pass
      
      
-def process_code(verify_code, challenge_code):     
+def process_code(verify_code, challenge_code, motor):     
     
     server_pub_key = Pickle.load(open("server_key.pub", 'r'))
 
@@ -60,15 +61,11 @@ def process_code(verify_code, challenge_code):
 
     if decrypted_message[4:8] != challenge_code:
         print 'Invalid QR-Code. Please try again.'
-        
-        return 0
     
         if verify_test != True:
             print 'The source of this QR-code could not be verified. Please try again.'
-            
-            return 0
 
     else:
         print "Thank you for your purchase. Enjoy your day :)"
         
-        return 1
+        motor_switch(motor)

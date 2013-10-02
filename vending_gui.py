@@ -93,11 +93,10 @@ class MainPanel(wx.Panel):
     def OnContinue(self, e):
         
         global motor
+        read(challenge, motor)
         
-        success = read(challenge)
-        
-        if success == 1:
-            motor_switch(motor)
+        #if success == 1:
+         #   motor_switch(motor)
                          
         #print challenge
             
