@@ -25,5 +25,6 @@ def encrypt_code(prod_code):
     url = "http://ec2-54-213-127-119.us-west-2.compute.amazonaws.com/?code=" + encoded_string + "[]" + encoded_signature
     challenge = prod_string[4:8]
     print url
+    print challenge
 
     return (url, challenge) 
