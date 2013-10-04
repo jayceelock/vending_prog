@@ -71,7 +71,7 @@ class ValidationServer(nfc.snep.SnepServer):
             info = "found matching ndef message, total length is {0} octets"
             log.info(info.format(len(ndef_message)))
             if len(ndef_message) <= acceptable_length:
-                return ndef_message
+                return ndef_message                 #check hier vir produkkode
             else: return nfc.snep.ExcessData
         return nfc.snep.NotFound
 
