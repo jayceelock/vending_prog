@@ -28,14 +28,18 @@ class MainPanel(wx.Panel):
         coke_button = wx.Button(self, label = "Coca Cola (340ml)")
         lays_button = wx.Button(self, label = "Lay's Lightly Salted (35g)")
         continue_button = wx.Button(self, label = "Continue with purchase")
+        nfc_button = wx.Button(self, label = "Pay using NFC")
         
         coke_button.Bind(wx.EVT_BUTTON, self.OnCoke)
         lays_button.Bind(wx.EVT_BUTTON, self.OnLays)
         continue_button.Bind(wx.EVT_BUTTON, self.OnContinue)
+        nfc_button.Bind(wx.EVT_BUTTON, self.OnNfc)
+        
         
         sizer.Add(coke_button, 0, wx.ALL, 5)    
         sizer.Add(lays_button, 0, wx.ALL, 5) 
         sizer.Add(continue_button, 0, wx.ALL, 5)
+        sizer.Add(nfc_button, 0, wx.ALL, 5)
         
         hSizer.Add((1,1), 1, wx.EXPAND)
         hSizer.Add(sizer, 0, wx.TOP, 10)
@@ -81,24 +85,27 @@ class MainPanel(wx.Panel):
         bmp = wx.Image("qrcode.png", wx.BITMAP_TYPE_ANY).ConvertToBitmap()
         wx.StaticBitmap(self, -1, bmp, pos=(10, 10), size=(420, 500))
         
-    def OnChoc(self, e):
-        global challenge 
-        
-        url, challenge = encrypt_code('4FF1')
-        make_qrcode(url)
-        
-        bmp = wx.Image("qrcode.png", wx.BITMAP_TYPE_ANY).ConvertToBitmap()
-        wx.StaticBitmap(self, -1, bmp, pos=(10, 10), size=(420, 500))     
+    #===========================================================================
+    # def OnChoc(self, e):
+    #     global challenge 
+    #     
+    #     url, challenge = encrypt_code('4FF1')
+    #     make_qrcode(url)
+    #     
+    #     bmp = wx.Image("qrcode.png", wx.BITMAP_TYPE_ANY).ConvertToBitmap()
+    #     wx.StaticBitmap(self, -1, bmp, pos=(10, 10), size=(420, 500))     
+    #===========================================================================
         
     def OnContinue(self, e):
         
         global motor
         read(challenge, motor)
         
-        #if success == 1:
-         #   motor_switch(motor)
-                         
-        #print challenge
+        bmp = wx.Image("background.png", wx.BITMAP_TYPE_ANY).ConvertToBitmap()
+        wx.StaticBitmap(self, -1, bmp, pos=(10, 10), size=(420, 500))
+        
+    def OnNfc(self, e):
+        print 'hi'
             
 ########################################################################
 class MainFrame(wx.Frame):

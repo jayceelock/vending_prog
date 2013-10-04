@@ -29,7 +29,7 @@ import io
 import copy
 import nfc.ndef
 import time
-import RPi.GPIO as GPIO
+#import RPi.GPIO as GPIO
 
 class Message(object):
     """Wraps a sequence of NDEF records and provides methods for
@@ -161,11 +161,11 @@ class Message(object):
         return self._records[0].name if len(self._records) else None
 
     def pretty(self):
-	GPIO.setmode(GPIO.BOARD)
+	#GPIO.setmode(GPIO.BOARD)
 
-	GPIO.setup(18, GPIO.OUT)
-	GPIO.setup(19, GPIO.OUT)
-	GPIO.setup(21, GPIO.OUT)
+	#GPIO.setup(18, GPIO.OUT)
+	#GPIO.setup(19, GPIO.OUT)
+	#GPIO.setup(21, GPIO.OUT)
         """Returns a message representation that might be considered
         pretty-printable."""
         lines = list()
@@ -179,15 +179,15 @@ class Message(object):
         lines = [" = ".join(line) for line in lines]
         
 	if record.data.strip('\x00') == 'A061':
-		GPIO.output(12, GPIO.HIGH)
-		time.sleep(2)
-		GPIO.output(12, GPIO.LOW)
+		#GPIO.output(12, GPIO.HIGH)
+		#time.sleep(2)
+		#GPIO.output(12, GPIO.LOW)
 		return 'Enjoy your coke!'		
 		
 	if record.data.strip('\x00') == '233C':
-		GPIO.output(12, GPIO.HIGH)
-		time.sleep(2)
-		GPIO.output(12, GPIO.LOW)	
+		#GPIO.output(12, GPIO.HIGH)
+		#time.sleep(2)
+		#GPIO.output(12, GPIO.LOW)	
 		return 'Enjoy your Lays!'
 
 	else:
