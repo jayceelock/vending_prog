@@ -35,6 +35,7 @@ from cli_local import CommandLineInterface      #Ignoreer hierdie error. Eclipse
 import nfc
 import nfc.snep
 import nfc.ndef
+#import nfc.clf
 
 class DefaultServer(nfc.snep.SnepServer):
     def __init__(self, llc):

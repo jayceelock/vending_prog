@@ -5,6 +5,7 @@ from generate_qrcode import make_qrcode
 from encrypt_elgamal import encrypt_code
 from read_qrcode import read
 from motor_control import motor_switch
+from pay_nfc import TestProgram
  
 ########################################################################
 class MainPanel(wx.Panel):
@@ -105,7 +106,10 @@ class MainPanel(wx.Panel):
         wx.StaticBitmap(self, -1, bmp, pos=(10, 10), size=(420, 500))
         
     def OnNfc(self, e):
-        print 'hi'
+        
+        TestProgram().run()
+        
+        #print 'hi'
             
 ########################################################################
 class MainFrame(wx.Frame):

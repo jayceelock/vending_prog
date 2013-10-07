@@ -102,6 +102,7 @@ class ContactlessFrontend(object):
     def __init__(self, path=None):
         self.dev = None
         self.lock = threading.Lock()
+        path = 'tty:AMA0:pn53x'
         if path and not self.open(path):
             raise IOError(errno.ENODEV, os.strerror(errno.ENODEV))
         
@@ -148,7 +149,7 @@ class ContactlessFrontend(object):
         if not isinstance(path, str):
             raise TypeError("expecting a string type argument *path*")
         if not len(path) > 0:
-             raise ValueError("argument *path* must not be empty")
+            raise ValueError("argument *path* must not be empty")
     
         log.info("searching for reader with path '{0}'".format(path))
 
