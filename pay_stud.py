@@ -12,4 +12,6 @@ def process_card():
     
     uid = uid_line.split(':')[1]
     
+    uid = uid.replace(" ", '')
+    
     return uid
