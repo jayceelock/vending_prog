@@ -105,7 +105,9 @@ class MainPanel(wx.Panel):
         
     def OnStud(self, e):
         
-        process_card()
+        uid = process_card()
+        
+        print uid
             
 ########################################################################
 class MainFrame(wx.Frame):
