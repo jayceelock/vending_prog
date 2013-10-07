@@ -22,11 +22,11 @@ class MainPanel(wx.Panel):
  
         sizer = wx.BoxSizer(wx.VERTICAL)
         hSizer = wx.BoxSizer(wx.HORIZONTAL)
- 
-        #for num in range(4):
-            #label = "Button %s" % num
-            #btn = wx.Button(self, label=label)
-            #sizer.Add(btn, 0, wx.ALL, 5)
+        
+        #self.dialog = wx.StaticText(self, label = '')
+        
+        self.dialog = wx.TextCtrl(self, style = wx.TE_READONLY|wx.TE_MULTILINE, size = (200, 90))
+        self.dialog.SetValue("Please select an option from the above list")
         
         coke_button = wx.Button(self, label = "Coca Cola (340ml)")
         lays_button = wx.Button(self, label = "Lay's Lightly Salted (35g)")
@@ -40,12 +40,12 @@ class MainPanel(wx.Panel):
         nfc_button.Bind(wx.EVT_BUTTON, self.OnNfc)
         stud_button.Bind(wx.EVT_BUTTON, self.OnStud)
         
-        
         sizer.Add(coke_button, 0, wx.ALL, 5)    
         sizer.Add(lays_button, 0, wx.ALL, 5) 
         sizer.Add(continue_button, 0, wx.ALL, 5)
         sizer.Add(nfc_button, 0, wx.ALL, 5)
         sizer.Add(stud_button, 0, wx.ALL, 5)
+        sizer.Add(self.dialog, 0, wx.ALL, 5)
         
         hSizer.Add((1,1), 1, wx.EXPAND)
         hSizer.Add(sizer, 0, wx.TOP, 10)
@@ -75,7 +75,9 @@ class MainPanel(wx.Panel):
         url, challenge = encrypt_code('A061')
         make_qrcode(url)
         
-        motor = 2
+        self.dialog.SetValue("Please scan the code on the left and click /'Continue with purchase/' afterwards")
+        
+        motor = 1
         
         bmp = wx.Image("qrcode.png", wx.BITMAP_TYPE_ANY).ConvertToBitmap()
         wx.StaticBitmap(self, -1, bmp, pos=(10, 10), size=(420, 500))
@@ -86,6 +88,8 @@ class MainPanel(wx.Panel):
         url, challenge = encrypt_code('233C')
         make_qrcode(url)
         
+        self.dialog.SetValue("Please scan the code on the left and click /'Continue with purchase/' afterwards")
+
         motor = 2
         
         bmp = wx.Image("qrcode.png", wx.BITMAP_TYPE_ANY).ConvertToBitmap()
@@ -96,17 +100,23 @@ class MainPanel(wx.Panel):
         global motor
         read(challenge, motor)
         
+        self.dialog.SetValue("")
+
         bmp = wx.Image("background.png", wx.BITMAP_TYPE_ANY).ConvertToBitmap()
         wx.StaticBitmap(self, -1, bmp, pos=(10, 10), size=(420, 500))
         
     def OnNfc(self, e):
         
+        self.dialog.SetValue("Swipe your phone across the receiver when prompted by your phone")
+        
         TestProgram().run()
         
     def OnStud(self, e):
         
-        uid = process_card()
+        self.dialog.SetValue("Please swipe your SU card across the receiver")
         
+        uid = process_card()
+    
         print uid
             
 ########################################################################
