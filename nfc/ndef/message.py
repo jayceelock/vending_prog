@@ -29,6 +29,9 @@ import io
 import copy
 import nfc.ndef
 import time
+import os
+
+from Crypto.PublicKey import RSA
 #import RPi.GPIO as GPIO
 
 class Message(object):
@@ -161,36 +164,39 @@ class Message(object):
         return self._records[0].name if len(self._records) else None
 
     def pretty(self):
-	#GPIO.setmode(GPIO.BOARD)
-
-	#GPIO.setup(18, GPIO.OUT)
-	#GPIO.setup(19, GPIO.OUT)
-	#GPIO.setup(21, GPIO.OUT)
         """Returns a message representation that might be considered
         pretty-printable."""
         lines = list()
+        
         for index, record in enumerate(self._records):
             lines.append(("record {0}".format(index+1),))
             lines.append(("  type", repr(record.type)))
             lines.append(("  name", repr(record.name)))
             lines.append(("  data", repr(record.data)))
+            
         lwidth = max([len(line[0]) for line in lines])
         lines = [(line[0].ljust(lwidth),) + line[1:] for line in lines]
         lines = [" = ".join(line) for line in lines]
         
-	if record.data.strip('\x00') == 'A061':
-		#GPIO.output(12, GPIO.HIGH)
-		#time.sleep(2)
-		#GPIO.output(12, GPIO.LOW)
-		return 'Enjoy your coke!'		
-		
-	if record.data.strip('\x00') == '233C':
-		#GPIO.output(12, GPIO.HIGH)
-		#time.sleep(2)
-		#GPIO.output(12, GPIO.LOW)	
-		return 'Enjoy your Lays!'
-
-	else:
-		return 'Your request has been denied.'
-	#return ("\n").join([line for line in lines])
+        decrypted_code = decrypt(record.data.strip('\x00'))
+        
+        if decrypted_code[4:8] == 'A061':
+            return 'Enjoy your coke!'		
+        
+        elif decrypted_code[4:8] == '233C':	
+    	   return 'Enjoy your Lays!'
+    
+        else:
+    	    return 'Your request has been denied.'
+    	    #return ("\n").join([line for line in lines])
+        
+    
+def decrypt(encrypted_code):
+    
+    path = os.getcwd()
+    
+    f = open(path + "/private_key.pem", 'r')
+    priv_key = RSA.importKey(f)
+    
+    return priv_key.decrypt(encrypted_code)
         
