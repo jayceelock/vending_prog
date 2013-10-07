@@ -30,6 +30,7 @@ import copy
 import nfc.ndef
 import time
 import os
+import base64
 
 from Crypto.PublicKey import RSA
 #import RPi.GPIO as GPIO
@@ -191,12 +192,14 @@ class Message(object):
     	    #return ("\n").join([line for line in lines])
         
     
-def decrypt(encrypted_code):
+def decrypt(encoded_code):
     
     path = os.getcwd()
     
     f = open(path + "/private_key.pem", 'r')
     priv_key = RSA.importKey(f)
+    
+    encrypted_code = base64.b64decode(encoded_code)
     
     return priv_key.decrypt(encrypted_code)
         
