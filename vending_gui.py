@@ -23,7 +23,8 @@ class MainPanel(wx.Panel):
         sizer = wx.BoxSizer(wx.VERTICAL)
         hSizer = wx.BoxSizer(wx.HORIZONTAL)
         
-        #self.dialog = wx.StaticText(self, label = '')
+        bmp = wx.Image("black.jpg", wx.BITMAP_TYPE_ANY).ConvertToBitmap()
+        wx.StaticBitmap(self, -1, bmp, pos=(10, 10), size=(413, 400))
         
         self.dialog = wx.TextCtrl(self, style = wx.TE_READONLY|wx.TE_MULTILINE, size = (200, 90))
         self.dialog.SetValue("Please select an option from the above list")
@@ -102,8 +103,8 @@ class MainPanel(wx.Panel):
         
         self.dialog.SetValue("")
 
-        bmp = wx.Image("background.png", wx.BITMAP_TYPE_ANY).ConvertToBitmap()
-        wx.StaticBitmap(self, -1, bmp, pos=(10, 10), size=(420, 500))
+        bmp = wx.Image("black.jpg", wx.BITMAP_TYPE_ANY).ConvertToBitmap()
+        wx.StaticBitmap(self, -1, bmp, pos=(10, 10), size=(413, 415))
         
     def OnNfc(self, e):
         
@@ -113,11 +114,15 @@ class MainPanel(wx.Panel):
         
     def OnStud(self, e):
         
+        uid_list = ['e243e3c3', '2b8000c6', 'db9b01c6']
+        
         self.dialog.SetValue("Please swipe your SU card across the receiver")
         
         uid = process_card()
-    
-        print uid
+        
+        if uid in uid_list:
+            motor_switch(motor)
+            print uid
             
 ########################################################################
 class MainFrame(wx.Frame):
