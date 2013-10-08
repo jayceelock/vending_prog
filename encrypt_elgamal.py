@@ -24,7 +24,7 @@ def encrypt_code(prod_code):
     encoded_string = base64.urlsafe_b64encode(encrypted_string[0]) + '**' + base64.urlsafe_b64encode(encrypted_string[1])
     url = "http://ec2-54-213-127-119.us-west-2.compute.amazonaws.com/?code=" + encoded_string + "[]" + encoded_signature
     challenge = prod_string[4:8]
-    print url
-    print challenge
+    #print url
+    #print challenge
 
     return (url, challenge) 

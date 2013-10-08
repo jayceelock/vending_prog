@@ -27,11 +27,16 @@ class MainPanel(wx.Panel):
         wx.StaticBitmap(self, -1, bmp, pos=(10, 10), size=(413, 400))
         
         self.dialog = wx.TextCtrl(self, style = wx.TE_READONLY|wx.TE_MULTILINE, size = (200, 90))
-        self.dialog.SetValue("Please select an option from the above list")
+        self.dialog.SetValue("")
+        self.info1 = wx.TextCtrl(self, style = wx.TE_READONLY|wx.TE_MULTILINE, size = (200, 55))
+        self.info1.SetValue("Please select what you'd like to buy from the list below")
+        self.info2 = wx.TextCtrl(self, style = wx.TE_READONLY|wx.TE_MULTILINE, size = (200, 50))
+        self.info2.SetValue("Please select a payment option from the list below")
         
         coke_button = wx.Button(self, label = "Coca Cola (340ml)")
         lays_button = wx.Button(self, label = "Lay's Lightly Salted (35g)")
-        continue_button = wx.Button(self, label = "Continue with purchase")
+        qr_button = wx.Button(self, label = "Pay using QR Codes")
+        continue_button = wx.Button(self, label = "Continue with QR Code purchase")
         nfc_button = wx.Button(self, label = "Pay using NFC")
         stud_button = wx.Button(self, label = "Pay using SU Card")
         
@@ -40,9 +45,13 @@ class MainPanel(wx.Panel):
         continue_button.Bind(wx.EVT_BUTTON, self.OnContinue)
         nfc_button.Bind(wx.EVT_BUTTON, self.OnNfc)
         stud_button.Bind(wx.EVT_BUTTON, self.OnStud)
+        qr_button.Bind(wx.EVT_BUTTON, self.OnQrCode)
         
-        sizer.Add(coke_button, 0, wx.ALL, 5)    
-        sizer.Add(lays_button, 0, wx.ALL, 5) 
+        sizer.Add(self.info1, 0, wx.ALL, 5)
+        sizer.Add(coke_button, 0, wx.ALL, 5)
+        sizer.Add(lays_button, 0, wx.ALL, 5)
+        sizer.Add(self.info2, 0, wx.ALL, 5)
+        sizer.Add(qr_button, 0, wx.ALL, 5)     
         sizer.Add(continue_button, 0, wx.ALL, 5)
         sizer.Add(nfc_button, 0, wx.ALL, 5)
         sizer.Add(stud_button, 0, wx.ALL, 5)
@@ -71,30 +80,29 @@ class MainPanel(wx.Panel):
         dc.DrawBitmap(bmp, 0, 0)
  
     def OnCoke(self, e):
-        global challenge, motor
+        global challenge, motor, qr_prod_code
         
-        url, challenge = encrypt_code('A061')
-        make_qrcode(url)
-        
-        self.dialog.SetValue("Please scan the code on the left and click /'Continue with purchase/' afterwards")
-        
+        qr_prod_code = 'A061'
+                
         motor = 1
         
-        bmp = wx.Image("qrcode.png", wx.BITMAP_TYPE_ANY).ConvertToBitmap()
-        wx.StaticBitmap(self, -1, bmp, pos=(10, 10), size=(420, 500))
-        
     def OnLays(self, e):
-        global challenge, motor
+        global challenge, motor, qr_prod_code
+        
+        qr_prod_code = '233C'
+        
+        motor = 2
+
+    def OnQrCode(self, e):
+        global qr_prod_code, challenge
         
         url, challenge = encrypt_code('233C')
         make_qrcode(url)
         
-        self.dialog.SetValue("Please scan the code on the left and click /'Continue with purchase/' afterwards")
-
-        motor = 2
-        
         bmp = wx.Image("qrcode.png", wx.BITMAP_TYPE_ANY).ConvertToBitmap()
         wx.StaticBitmap(self, -1, bmp, pos=(10, 10), size=(420, 500))
+        
+        #print 'awe'    
         
     def OnContinue(self, e):
         
@@ -133,7 +141,7 @@ class MainFrame(wx.Frame):
     #----------------------------------------------------------------------
     def __init__(self):
         """Constructor"""
-        wx.Frame.__init__(self, None, size=(650,450))
+        wx.Frame.__init__(self, None, size=(700,550))
         panel = MainPanel(self)        
         self.Center()
  
