@@ -192,9 +192,7 @@ class Message(object):
     
         else:
             return 'Your request has been denied.'
-            #return ("\n").join([line for line in lines])
         
-    
 def decrypt(encoded_code):
     
     path = os.getcwd()
