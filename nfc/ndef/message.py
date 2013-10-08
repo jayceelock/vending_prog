@@ -31,6 +31,7 @@ import nfc.ndef
 import time
 import os
 import base64
+from motor_control import motor_switch
 
 from Crypto.PublicKey import RSA
 #import RPi.GPIO as GPIO
@@ -182,14 +183,16 @@ class Message(object):
         decrypted_code = decrypt(record.data.strip('\x00'))
         
         if decrypted_code[4:8] == 'A061':
+            motor_switch(1)    
             return 'Enjoy your coke!'		
         
-        elif decrypted_code[4:8] == '233C':	
-    	   return 'Enjoy your Lays!'
+        elif decrypted_code[4:8] == '233C':
+            motor_switch(2)	
+            return 'Enjoy your Lays!'
     
         else:
-    	    return 'Your request has been denied.'
-    	    #return ("\n").join([line for line in lines])
+            return 'Your request has been denied.'
+            #return ("\n").join([line for line in lines])
         
     
 def decrypt(encoded_code):

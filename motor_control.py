@@ -2,7 +2,7 @@
 import time
 
 def motor_switch(motor):
-    print 'hi'
+    print('Activating motor' + str(motor))
     #===========================================================================
     # GPIO.setmode(GPIO.BOARD)
     # 
