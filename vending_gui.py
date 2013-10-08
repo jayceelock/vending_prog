@@ -114,6 +114,8 @@ class MainPanel(wx.Panel):
         
     def OnStud(self, e):
         
+        global motor
+        
         uid_list = ['e243e3c3', '2b8000c6', 'db9b01c6']
         
         self.dialog.SetValue("Please swipe your SU card across the receiver")
