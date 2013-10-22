@@ -1,3 +1,8 @@
+"""
+This is the encryption module for the vending machine. It encrypts a URL as 
+specified in the main report.
+"""
+
 import base64
 import random
 import cPickle as Pickle
@@ -6,6 +11,7 @@ from Crypto.PublicKey import ElGamal
 
 def encrypt_code(prod_code):
     
+    #Retrieve the encryption keys from files
     server_pub_key = Pickle.load(open("server_key.pub", 'r'))
     vending_priv_key = Pickle.load(open("vending_key.priv", 'r'))
     
@@ -13,6 +19,7 @@ def encrypt_code(prod_code):
       
     prod_string = rand_gen_hex + prod_code
     
+    #Encrypt, sign and encode the URL
     hash_code = MD5.new(prod_code).digest()
     
     signature = vending_priv_key.sign(hash_code, prod_code)
@@ -24,7 +31,5 @@ def encrypt_code(prod_code):
     encoded_string = base64.urlsafe_b64encode(encrypted_string[0]) + '**' + base64.urlsafe_b64encode(encrypted_string[1])
     url = "http://ec2-54-213-127-119.us-west-2.compute.amazonaws.com/?code=" + encoded_string + "[]" + encoded_signature
     challenge = prod_string[4:8]
-    #print url
-    #print challenge
 
     return (url, challenge) 

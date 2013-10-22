@@ -1,3 +1,9 @@
+"""
+This is the read_qrcode module for the vending machine. It uses a ZBar image 
+processor to scan a video stream for a QR Code. it then decodes the image and 
+processes the data embedded in it.
+"""
+
 from Crypto.Hash import MD5
 from sys import argv
 import base64
@@ -43,10 +49,12 @@ def read(challenge_code, motor_num):
      
 def process_code(verify_code, challenge_code, motor):     
     
+    #Load the keys from a file
     server_pub_key = Pickle.load(open("server_key.pub", 'r'))
 
     vending_priv_key = Pickle.load(open("vending_key.priv", 'r'))
-
+    
+    #Process, decode, decrypt and verify the data
     verify_code = verify_code.split('[]', 2)
     encoded_string = verify_code[0].split('**', 2)
     encoded_signature = verify_code[1].split('**', 2)

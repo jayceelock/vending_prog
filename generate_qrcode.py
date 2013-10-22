@@ -1,6 +1,12 @@
+"""
+This is the QR Code generation scipt. It uses the python-qrcode module to 
+embed the URL into a QR Code.
+"""
+
 import qrcode
 import os
 
+#Embed the data into a QR Code
 def make_qrcode(data):
     qr = qrcode.QRCode(
                        version = None,
@@ -13,6 +19,6 @@ def make_qrcode(data):
     qrcoded_image = qr.make_image()
     
     path = os.getcwd()
-
+    
+    #Save the image to the disk
     qrcoded_image.save(path + "/qrcode.png")
-    #qrcoded_image.save("/media/jaycee/J-Drive/skripsie/vending_prog/qrcode.png")

@@ -5,7 +5,6 @@ create a GUI that provides the customer with payment and product options.
 """
 import wx
 
-
 from generate_qrcode import make_qrcode
 from encrypt_elgamal import encrypt_code
 from read_qrcode import read
